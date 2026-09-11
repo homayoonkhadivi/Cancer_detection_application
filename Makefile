@@ -1,4 +1,4 @@
-.PHONY: install install-dev run train test lint format requirements clean
+.PHONY: install install-dev run train search search-quick evaluate test lint format requirements clean
 
 ENTRY := cancer_detection_main.py
 
@@ -22,6 +22,15 @@ search:
 
 search-quick:
 	uv run python -m training.search --quick
+
+evaluate:
+	uv run python -m training.evaluate
+
+evaluate-cnn:
+	uv run python -m training.evaluate --model cnn
+
+evaluate-resnet:
+	uv run python -m training.evaluate --model resnet
 
 test:
 	uv run pytest tests/ -v
