@@ -12,7 +12,16 @@ run:
 	uv run streamlit run $(ENTRY)
 
 train:
-	uv run python training/train.py
+	uv run python -m training.train
+
+tune:
+	uv run python -m training.tune
+
+search:
+	uv run python -m training.search
+
+search-quick:
+	uv run python -m training.search --quick
 
 test:
 	uv run pytest tests/ -v

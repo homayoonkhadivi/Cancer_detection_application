@@ -9,9 +9,7 @@ _MODEL_OPTIONS = ("CNN Model", "ResNet Transfer Learning Model")
 
 def main() -> None:
     st.title("Pneumonia Detection App")
-    st.markdown(
-        "Upload a chest X-ray image and select a model to detect pneumonia."
-    )
+    st.markdown("Upload a chest X-ray image and select a model to detect pneumonia.")
 
     st.sidebar.header("Model Selection")
     model_choice = st.sidebar.radio("Select a model:", _MODEL_OPTIONS)
@@ -29,11 +27,38 @@ def main() -> None:
         if st.button("Predict"):
             with st.spinner("Analysing..."):
                 result = predict(model, uploaded_file)
-            st.success(
-                f"**{result['label']}** — confidence: {result['confidence']:.1%}"
-            )
+
+            _render_result(result)
 
     _render_sidebar_readme()
+
+
+def _render_result(result: dict) -> None:
+    label      = result["label"]
+    confidence = result["confidence"]
+    pneumonia  = result["pneumonia_pct"]
+    normal     = result["normal_pct"]
+
+    is_pneumonia = label == "Pneumonia"
+    color = "🔴" if is_pneumonia else "🟢"
+
+    if is_pneumonia:
+        st.error(f"{color} **{label}** detected — {confidence:.1%} confidence")
+    else:
+        st.success(f"{color} **{label}** — {confidence:.1%} confidence")
+
+    st.markdown("#### Probability breakdown")
+    col1, col2 = st.columns(2)
+    col1.metric("Pneumonia", f"{pneumonia:.1f}%")
+    col2.metric("Normal",    f"{normal:.1f}%")
+
+    st.markdown("**Pneumonia probability**")
+    st.progress(pneumonia / 100)
+    st.markdown("**Normal probability**")
+    st.progress(normal / 100)
+
+    if confidence < 0.70:
+        st.warning("Low confidence — consider consulting a radiologist.")
 
 
 def _render_sidebar_readme() -> None:

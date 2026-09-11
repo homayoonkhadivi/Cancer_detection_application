@@ -6,9 +6,11 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "streamlit>=1.28.0",
-    "tensorflow-cpu==2.16.2",
+    "torch>=2.3.0",
+    "torchvision>=0.18.0",
     "numpy<2",
     "Pillow>=10.0.0",
+    "scikit-learn>=1.4.0",
 ]
 
 [project.optional-dependencies]
@@ -18,6 +20,8 @@ dev = [
 ]
 training = [
     "matplotlib>=3.7.0",
+    "scipy>=1.11.0",
+    "scikit-learn>=1.4.0",
 ]
 
 [tool.ruff]

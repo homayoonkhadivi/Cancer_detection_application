@@ -25,7 +25,7 @@ htmlcov/
 .ruff_cache/
 
 # Data & models (large files handled by LFS)
-input/
+data/
 saved_model/*.zip
 
 # IDE
